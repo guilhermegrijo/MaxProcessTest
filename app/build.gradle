@@ -11,6 +11,8 @@ project.ext {
     colorPicker = "1.1.10"
     roomVersion = "2.3.0-alpha02"
     lombok = "1.18.12"
+    glide = "4.9.0"
+    avatarGenerator = "1.4"
 
 }
 
@@ -69,6 +71,9 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxandroid:$project.reactivexVersion"
     implementation "io.reactivex.rxjava3:rxjava:$project.reactivexVersion"
 
+    //glide
+    implementation "com.github.bumptech.glide:glide:$project.glide"
+
     //room + reactivex
     implementation "androidx.room:room-rxjava3:$project.roomVersion"
 
@@ -81,4 +86,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$project.daggerVersion"
     testAnnotationProcessor "com.google.dagger:dagger-compiler:$project.daggerVersion"
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$project.daggerVersion"
+
+    //Avatar Generator
+    implementation "com.first.avatargenerator:AvatarImageGenerator:$project.avatarGenerator"
 }

@@ -40,13 +40,13 @@ public class ContactDataSource implements ContactRepository {
         return contactDao.insert(contact);
     }
 
-   /* @Override
-    public Single<Long> insert(Contact contact, Phone... phones) {
-        return contactDao.insert(contact, phones);
-    }*/
+    @Override
+    public void insert(Contact contact, Phone... phones) {
+        contactDao.insert(contact, phones);
+    }
 
     @Override
-    public Completable insert(Phone phone) {
+    public Completable insert(Phone... phone) {
         return contactDao.insert(phone);
     }
 

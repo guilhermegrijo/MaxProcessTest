@@ -19,7 +19,7 @@ public abstract class ContactDao {
 
 
 
-        @Query("SELECT contact_id, name, uf FROM contact")
+        @Query("SELECT contact_id, name, uf FROM contact order by name")
         public abstract Maybe<List<Contact>> getAll();
 
         @Transaction
@@ -29,22 +29,20 @@ public abstract class ContactDao {
         @Insert
         public abstract Single<Long> insert(Contact contact);
 
-        /* @Transaction
+        @Transaction
         public void insert(Contact contact, Phone... phones) {
 
-                final Single<Long> result = insert(contact);
+                final Long result = insert(contact).blockingGet();
 
-               result.doOnSuccess( id -> {
+
                         for (Phone phone : phones) {
-                                phone.setPhonesContactId(id);
+                                phone.setPhonesContactId(result);
                                 insert(phone);
                         }
-                });
-        return null;
-        };
-*/
+        }
+
         @Insert
-        public abstract Completable insert(Phone phone);
+        public abstract Completable insert(Phone... phone);
 
         @Delete
         public abstract Completable delete(Contact contact);

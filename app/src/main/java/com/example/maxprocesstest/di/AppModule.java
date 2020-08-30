@@ -14,6 +14,7 @@ import com.example.maxprocesstest.repository.ContactDataSource;
 import com.example.maxprocesstest.repository.ContactRepository;
 import com.example.maxprocesstest.scheduler.IScheduleProvider;
 import com.example.maxprocesstest.scheduler.SchedulerProvider;
+import com.example.maxprocesstest.ui.contactDetail.ContactDetailViewModelFactory;
 import com.example.maxprocesstest.ui.contactList.ContactListViewModelFactory;
 
 import javax.inject.Singleton;
@@ -57,7 +58,13 @@ public class AppModule {
     }
 
     @Provides
-    ContactListViewModelFactory provideEmpresaViewModelFactory(ContactRepository repository, IScheduleProvider scheduleProvider) {
+    ContactListViewModelFactory provideContactListViewModelFactory(ContactRepository repository, IScheduleProvider scheduleProvider) {
         return new ContactListViewModelFactory(repository, scheduleProvider);
+    }
+
+
+    @Provides
+    ContactDetailViewModelFactory provideContactDetailViewModelFactory(ContactRepository repository, IScheduleProvider scheduleProvider) {
+        return new ContactDetailViewModelFactory(repository, scheduleProvider);
     }
 }

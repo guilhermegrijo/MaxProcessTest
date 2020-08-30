@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="A" />
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/companyPhoto"
-                android:layout_width="105dp"
-                android:layout_height="70dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_margin="9dp"
                 tools:layout_editor_absoluteX="93dp"
                 tools:layout_editor_absoluteY="109dp"
@@ -42,18 +37,18 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:textColor="#1a0e49"
-                    android:textSize="11.3sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Guilherme Bueno" />
 
                 <TextView
-                    android:id="@+id/first_number"
+                    android:id="@+id/contact_uf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:textColor="@color/colorAccent"
-                    android:textSize="11.3sp"
-                    tools:text="(31) 98795-0962" />
+                    android:textSize="12sp"
+                    tools:text="MG" />
 
 
             </LinearLayout>

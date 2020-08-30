@@ -1,6 +1,7 @@
 package com.example.maxprocesstest;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -23,10 +24,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.observers.TestObserver;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -55,29 +57,18 @@ public class SimpleEntityReadWriteTest {
         user.setName("george");
         user.setCreatedAt(new Date());
 
+        Phone phone = new Phone();
+        List<Phone> phoneList = new ArrayList<>();
+        phone.setPhone("31987950962");
+
+        phoneList.add(phone);
 
 
-        repository.insert(user).flatMap(new Function<Long, List<Phone>>() {
-            @Override
-            public List<Phone> apply(Long id) throws Exception {
-                Phone phone = new Phone();
-                List<Phone> phoneList = new ArrayList<>();
-                phone.setPhone("31987950962");
+        repository.insert(user).flatMapCompletable(id -> repository.insert(phoneList.stream().toArray(Phone[]::new))).test();
 
-                phoneList.add(phone);
-                return phoneList;
-            }
-        }).map(phone1 -> repository.insert((Phone)phone1)).test();
-
-        /*.doOnSuccess(id -> {
-            for (Phone phone1 : phoneList) {
-                phone1.setPhonesContactId(id);
-                repository.insert(phone1).blockingAwait();
-            }
-        });*/
 
         ContactPhones contactPhones = repository.loadById((long) 1).blockingFirst();
 
-        assertThat(contactPhones.contact.getName(), equalTo(user.getName()));
+        assertThat(contactPhones.phoneList.size(), equalTo(1));
     }
 }

@@ -12,13 +12,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -26,7 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.maxprocesstest.R;
-import com.example.maxprocesstest.model.ContactPhones;
+import com.example.maxprocesstest.model.Contact;
 import com.example.maxprocesstest.model.Response;
 import com.example.maxprocesstest.ui.contactDetail.ContactDetailActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -76,11 +74,14 @@ public class ContactListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mAdapter = new ItemAdapter();
         mView = inflater.inflate(R.layout.contact_list_fragment, container, false);
         ButterKnife.bind(this, mView);
 
-
+        mAdapter = new ItemAdapter();
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mAdapter);
         return mView;
     }
 
@@ -91,8 +92,14 @@ public class ContactListFragment extends Fragment {
         AndroidSupportInjection.inject(this);
         mViewModel = new ViewModelProvider(this,factory).get(ContactListViewModel.class);
         mViewModel.response().observe(getViewLifecycleOwner(), this::processResponse);
-        mViewModel.getAllContacts();
 
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mViewModel.getAllContacts();
     }
 
     @OnClick(R.id.new_contact_btn)
@@ -122,7 +129,7 @@ public class ContactListFragment extends Fragment {
 
 
 
-    public void processResponse(Response<List<ContactPhones>> response) {
+    public void processResponse(Response<List<Contact>> response) {
         switch (response.status) {
             case SUCCESS:
                 mAdapter.setItemList(response.data);

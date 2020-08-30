@@ -32,4 +32,9 @@ public class Response<T> {
     public static Response empty() {
         return new Response(Status.EMPTY, null, null);
     }
+
+
+    public static Response completed() {
+        return new Response(Status.COMPLETED, null, null);
+    }
 }

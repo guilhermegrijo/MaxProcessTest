@@ -1,9 +1,12 @@
-package com.example.maxprocesstest.ui.contactList;
+package com.example.maxprocesstest.ui.contactDetail;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,9 @@ import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
+import com.example.maxprocesstest.utils.MaskEditUtil;
+import com.example.maxprocesstest.utils.PhoneWatcher;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
@@ -23,11 +29,11 @@ import butterknife.ButterKnife;
 
 class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Contact> mItemList;
+    private List<String> mItemList;
     private OnItemClickListener listener;
 
 
-    void setItemList(final List<Contact> itemList) {
+    void setItemList(final List<String> itemList) {
         mItemList = itemList;
 
         notifyDataSetChanged();
@@ -43,7 +49,7 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.phone_list_item, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -66,12 +72,10 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.contact_name)
-        TextView name;
-        @BindView(R.id.contact_uf)
-        TextView uf;
-        @BindView(R.id.companyPhoto)
-        ImageView companyPhoto;
+        @BindView(R.id.phone_editText)
+        TextInputLayout phone;
+        @BindView(R.id.remove_phone)
+        Button remove_phone;
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,25 +83,9 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public int getPrevious(int position) {
-            if (position <= 0) return 0;
-            return position - 1;
-        }
-
         void populateItemRows(ItemViewHolder viewHolder, int position) {
-            Log.d("name", mItemList.get(position).getName());
-            viewHolder.name.setText(mItemList.get(position).getName());
-            viewHolder.uf.setText(mItemList.get(position).getUf());
-            char lastContactFirstLetter = mItemList.get(getPrevious(position)).getName().charAt(0);
-            char contactFirstLetter = mItemList.get(position).getName().charAt(0);
-            if(lastContactFirstLetter != contactFirstLetter){
-
-            }
-            Glide.with(companyPhoto.getContext()).load("http://aaaaaaaaaaaaaa")
-                    .placeholder(AvatarGenerator.Companion.avatarImage(companyPhoto.getContext(), 35, AvatarConstants.Companion.getCIRCLE(), mItemList.get(position).getName(),AvatarConstants.Companion.getCOLOR400()))
-                    .into(companyPhoto);
-
-            itemView.setOnClickListener(v -> listener.onItemClick(mItemList.get(position), companyPhoto));
+            viewHolder.phone.getEditText().addTextChangedListener(MaskEditUtil.mask(viewHolder.phone.getEditText(),MaskEditUtil.FORMAT_FONE));
+            viewHolder.phone.getEditText().addTextChangedListener(PhoneWatcher.watcher(mItemList));
         }
     }
 }

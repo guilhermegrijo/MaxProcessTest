@@ -2,6 +2,7 @@ package com.example.maxprocesstest.di;
 
 
 
+import com.example.maxprocesstest.ui.contactDetail.ContactDetailFragment;
 import com.example.maxprocesstest.ui.contactList.ContactListFragment;
 
 import dagger.Module;
@@ -11,7 +12,12 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class BuildersModule {
 
     @ContributesAndroidInjector
-    abstract ContactListFragment bindMainFragment();
+    abstract ContactListFragment bindContactListFragment();
+
+
+    @ContributesAndroidInjector
+    abstract ContactDetailFragment bindContactDetailFragment();
+
 
 
 }

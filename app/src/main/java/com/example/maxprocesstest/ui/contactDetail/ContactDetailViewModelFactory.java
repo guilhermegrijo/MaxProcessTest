@@ -23,8 +23,8 @@ public class ContactDetailViewModelFactory implements ViewModelProvider.Factory 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(ContactListViewModel.class)) {
-            return (T) new ContactListViewModel(repository, scheduleProvider);
+        if (modelClass.isAssignableFrom(ContactDetailViewModel.class)) {
+            return (T) new ContactDetailViewModel(repository, scheduleProvider);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

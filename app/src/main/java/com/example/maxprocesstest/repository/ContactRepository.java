@@ -19,11 +19,11 @@ public interface ContactRepository {
 
     Observable<ContactPhones> loadById(Long contactId);
 
-    Single insert(Contact contact);
+    Single<Long> insert(Contact contact);
 
-    // Single<Long> insert(Contact contact, Phone... phones);
+    void insert(Contact contact, Phone... phones);
 
-    Completable insert(Phone phone);
+    Completable insert(Phone... phone);
 
     Completable delete(Contact contact);
 
