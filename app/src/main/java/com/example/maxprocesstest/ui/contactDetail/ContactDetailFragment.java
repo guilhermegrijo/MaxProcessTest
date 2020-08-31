@@ -1,5 +1,6 @@
 package com.example.maxprocesstest.ui.contactDetail;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,12 +34,14 @@ import com.example.maxprocesstest.model.Contact;
 import com.example.maxprocesstest.model.Response;
 import com.example.maxprocesstest.utils.MaskEditUtil;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.common.base.Optional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -51,7 +55,7 @@ public class ContactDetailFragment extends Fragment {
     private ContactDetailViewModel mViewModel;
 
     private View mView;
-    private Calendar myCalendar = Calendar.getInstance();
+    private Calendar mMyCalendar = Calendar.getInstance();
 
     ItemAdapter mAdapter;
 
@@ -61,22 +65,22 @@ public class ContactDetailFragment extends Fragment {
     ContactDetailViewModelFactory factory;
 
     @BindView(R.id.birthday_editTxt)
-    EditText birthday_editTxt_clickable;
+    EditText etBirthday;
 
     @BindView(R.id.name_editTxt)
-    TextInputLayout name_editTxt;
+    TextInputLayout etName;
 
     @BindView(R.id.cpf_editTxt)
-    TextInputLayout cpf_editTxt;
+    TextInputLayout etCpf;
 
     @BindView(R.id.uf_editTxt)
-    TextInputLayout uf_editTxt;
+    TextInputLayout etUf;
 
     @BindView(R.id.contact_detail_toolbar)
     Toolbar mToolbar;
 
     @BindView(R.id.filled_exposed_dropdown)
-    AutoCompleteTextView spinner_uf;
+    AutoCompleteTextView spnUf;
 
     @BindView(R.id.contact_list_recycler_view)
     RecyclerView recyclerView;
@@ -153,33 +157,35 @@ public class ContactDetailFragment extends Fragment {
     }
 
     private void setupView(){
-        cpf_editTxt.getEditText().addTextChangedListener(MaskEditUtil.mask(cpf_editTxt.getEditText(),MaskEditUtil.FORMAT_CPF));
+        etCpf.getEditText().addTextChangedListener(MaskEditUtil.mask(etCpf.getEditText(),MaskEditUtil.FORMAT_CPF));
 
         mDate = (view, year, monthOfYear, dayOfMonth) -> {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            mMyCalendar.set(Calendar.YEAR, year);
+            mMyCalendar.set(Calendar.MONTH, monthOfYear);
+            mMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateLabel();
         };
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.brazilian_states, android.R.layout.simple_dropdown_item_1line);
-        spinner_uf.setAdapter(adapter);
+        spnUf.setAdapter(adapter);
 
         mAdapter = new ItemAdapter();
+        mAdapter.setHasStableIds(true);
+        recyclerView.setItemAnimator(null);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setItemList(Arrays.asList("1"));
+        mAdapter.setItemList(new ArrayList<>(Arrays.asList("")));
 
 
     }
 
     @OnClick(R.id.birthday_editTxt)
     public void clickBirthdayEditTxt(){
-        new DatePickerDialog(getContext(), mDate, myCalendar
-                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(getContext(), mDate, mMyCalendar
+                .get(Calendar.YEAR), mMyCalendar.get(Calendar.MONTH),
+                mMyCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
 
@@ -189,17 +195,17 @@ public class ContactDetailFragment extends Fragment {
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt","BR"));
 
-        birthday_editTxt_clickable.setText(sdf.format(myCalendar.getTime()));
+        etBirthday.setText(sdf.format(mMyCalendar.getTime()));
     }
-
     private void saveContact(){
         Contact contact = new Contact();
-        contact.setName(name_editTxt.getEditText().getText().toString());
-        contact.setUf(uf_editTxt.getEditText().getText().toString());
-        contact.setCpf(cpf_editTxt.getEditText().getText().toString());
+        contact.setName(etName.getEditText().getText().toString());
+        contact.setUf(etUf.getEditText().getText().toString());
+        contact.setCpf(etUf.getEditText().getText().toString());
 
 
-        mViewModel.createNewContact(contact);
+
+        mViewModel.createNewContact(contact,mAdapter.getItemList());
     }
 
 }

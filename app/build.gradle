@@ -89,4 +89,6 @@ dependencies {
 
     //Avatar Generator
     implementation "com.first.avatargenerator:AvatarImageGenerator:$project.avatarGenerator"
+
+    implementation "com.amulyakhare:com.amulyakhare.textdrawable:1.0.1"
 }

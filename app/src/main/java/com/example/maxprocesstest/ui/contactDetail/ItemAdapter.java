@@ -8,37 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.avatarfirst.avatargenlib.AvatarConstants;
-import com.avatarfirst.avatargenlib.AvatarGenerator;
-import com.bumptech.glide.Glide;
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
-import com.example.maxprocesstest.utils.MaskEditUtil;
-import com.example.maxprocesstest.utils.PhoneWatcher;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<String> mItemList;
     private OnItemClickListener listener;
 
-
     void setItemList(final List<String> itemList) {
         mItemList = itemList;
-
-        notifyDataSetChanged();
-
         Log.d("RECYCLERVIEW", "setData");
+    }
+
+    List<String> getItemList(){
+        return mItemList;
     }
 
 
@@ -61,6 +57,11 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public int getItemCount() {
         return mItemList == null ? 0 : mItemList.size();
     }
@@ -73,9 +74,18 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.phone_editText)
-        TextInputLayout phone;
-        @BindView(R.id.remove_phone)
-        Button remove_phone;
+        TextInputLayout etPhone;
+
+        @BindView(R.id.remove_phone_btn)
+        Button btnremovePhone;
+
+        @BindView(R.id.add_phone_btn)
+        Button btnAddPhone;
+
+
+        private int position;
+
+
 
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,9 +93,69 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
+        @OnClick(R.id.add_phone_btn)
+        void addPhoneAction(){
+            Log.d("Position", String.valueOf(position));
+            String str = etPhone.getEditText().getText().toString().replaceAll("[^\\d]", "");
+            if(str.length() >= 10) {
+                notifyDataSetChanged();
+                mItemList.add(position + 1, "");
+                etPhone.setError("");
+            }
+            else {
+                etPhone.setError("Primeiro insira um número corretamente aqui para adicionar outro");
+            }
+
+
+        }
+
+        @OnClick(R.id.remove_phone_btn)
+        void removePhoneAction(){
+            Log.d("Position", String.valueOf(position));
+            mItemList.remove(position);
+            notifyDataSetChanged();
+        }
+
+
+
         void populateItemRows(ItemViewHolder viewHolder, int position) {
-            viewHolder.phone.getEditText().addTextChangedListener(MaskEditUtil.mask(viewHolder.phone.getEditText(),MaskEditUtil.FORMAT_FONE));
-            viewHolder.phone.getEditText().addTextChangedListener(PhoneWatcher.watcher(mItemList));
+           this.position = position;
+
+
+            if((position + 1) == mItemList.size())
+            {
+            btnremovePhone.setVisibility(View.GONE);
+            btnAddPhone.setVisibility(View.VISIBLE);
+            }
+            else {
+                btnremovePhone.setVisibility(View.VISIBLE);
+                btnAddPhone.setVisibility(View.GONE);
+            }
+
+           viewHolder.etPhone.getEditText().addTextChangedListener(new TextWatcher() {
+               @Override
+               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+               }
+
+               @Override
+               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+               }
+
+               @Override
+               public void afterTextChanged(Editable editable) {
+                   String str = editable.toString().replaceAll("[^\\d]", "");
+                   if(str.length() >= 10)
+                   {
+                       mItemList.set(viewHolder.getAdapterPosition(), str);
+                       return;
+                   }
+               }
+           });
+
+
+            viewHolder.etPhone.getEditText().setText(mItemList.get(position));
         }
     }
 }

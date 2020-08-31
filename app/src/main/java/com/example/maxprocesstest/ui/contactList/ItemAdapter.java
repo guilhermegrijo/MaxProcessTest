@@ -1,5 +1,6 @@
 package com.example.maxprocesstest.ui.contactList;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.avatarfirst.avatargenlib.AvatarConstants;
 import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
@@ -93,8 +96,18 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if(lastContactFirstLetter != contactFirstLetter){
 
             }
+
+            String initials = "";
+            for (String s : mItemList.get(position).getName().split(" ")) {
+                initials+=s.charAt(0);
+            }
+            ColorGenerator generator = ColorGenerator.MATERIAL;
+            int color = generator.getColor(mItemList.get(position).getName());
+
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(initials , color);
             Glide.with(companyPhoto.getContext()).load("http://aaaaaaaaaaaaaa")
-                    .placeholder(AvatarGenerator.Companion.avatarImage(companyPhoto.getContext(), 35, AvatarConstants.Companion.getCIRCLE(), mItemList.get(position).getName(),AvatarConstants.Companion.getCOLOR400()))
+                    .placeholder(drawable)
                     .into(companyPhoto);
 
             itemView.setOnClickListener(v -> listener.onItemClick(mItemList.get(position), companyPhoto));

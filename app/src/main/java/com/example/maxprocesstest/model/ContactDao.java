@@ -19,7 +19,7 @@ public abstract class ContactDao {
 
 
 
-        @Query("SELECT contact_id, name, uf FROM contact order by name")
+        @Query("SELECT contact_id, name, uf FROM contact order by name asc")
         public abstract Maybe<List<Contact>> getAll();
 
         @Transaction

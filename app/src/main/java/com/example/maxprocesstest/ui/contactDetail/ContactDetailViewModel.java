@@ -9,7 +9,9 @@ import com.example.maxprocesstest.model.Response;
 import com.example.maxprocesstest.repository.ContactRepository;
 import com.example.maxprocesstest.scheduler.IScheduleProvider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
@@ -31,14 +33,23 @@ public class ContactDetailViewModel extends ViewModel {
     }
 
 
-    public void createNewContact(Contact contact, Phone... phones){
+    public void createNewContact(Contact contact, List<String> phones){
+
+        List<Phone> phoneList = new ArrayList<>();
+
+        for(String number : phones) {
+            Phone phone = new Phone();
+            phone.setPhone(number);
+            phoneList.add(phone);
+        }
+
         disposables.add(repository.insert(contact)
                 .subscribeOn(scheduleProvider.io())
                 .observeOn(scheduleProvider.ui())
                 .doOnSubscribe(__ -> {
                     //EspressoTestingIdlingResource.increment();
                 }).subscribe(result -> {
-                    repository.insert(phones).doOnComplete(() -> {
+                    repository.insert(phoneList.toArray(new Phone[phoneList.size()])).doOnComplete(() -> {
                         response.setValue(Response.completed());
                     }).doOnError(error -> {
                         response.setValue(Response.error(error));
