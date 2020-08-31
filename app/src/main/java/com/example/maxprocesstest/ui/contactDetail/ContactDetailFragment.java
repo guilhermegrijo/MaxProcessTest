@@ -1,14 +1,11 @@
 package com.example.maxprocesstest.ui.contactDetail;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,22 +23,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
 import com.example.maxprocesstest.model.Response;
-import com.example.maxprocesstest.utils.MaskEditUtil;
+import com.example.maxprocesstest.validator.birthday.BirthdayUfRule;
+import com.example.maxprocesstest.validator.birthday.BirthdayValidator;
+import com.example.maxprocesstest.validator.cpf.CpfUfRuleValidator;
+import com.example.maxprocesstest.validator.cpf.CpfValidator;
+import com.example.maxprocesstest.validator.ValidatorComposite;
+import com.example.maxprocesstest.validator.name.NameValidator;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.common.base.Optional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -55,7 +57,10 @@ public class ContactDetailFragment extends Fragment {
     private ContactDetailViewModel mViewModel;
 
     private View mView;
+
     private Calendar mMyCalendar = Calendar.getInstance();
+
+    private List<ValidatorComposite> validators;
 
     ItemAdapter mAdapter;
 
@@ -66,6 +71,9 @@ public class ContactDetailFragment extends Fragment {
 
     @BindView(R.id.birthday_editTxt)
     EditText etBirthday;
+
+    @BindView(R.id.birthday_Txt)
+    TextInputLayout tlBirthday;
 
     @BindView(R.id.name_editTxt)
     TextInputLayout etName;
@@ -84,6 +92,8 @@ public class ContactDetailFragment extends Fragment {
 
     @BindView(R.id.contact_list_recycler_view)
     RecyclerView recyclerView;
+
+
 
     public static ContactDetailFragment newInstance() {
         return new ContactDetailFragment();
@@ -133,7 +143,7 @@ public class ContactDetailFragment extends Fragment {
                 break;
 
             case R.id.action_save:
-                saveContact();
+                    saveContact();
                 break;
 
             default:
@@ -146,9 +156,8 @@ public class ContactDetailFragment extends Fragment {
     private void processResponse(Response response) {
         switch (response.status) {
             case COMPLETED:
-
+                getActivity().finish();
                 break;
-
             case ERROR:
                 Log.e("Save contact error", "processResponse: ", response.error);
                 break;
@@ -157,9 +166,7 @@ public class ContactDetailFragment extends Fragment {
     }
 
     private void setupView(){
-        etCpf.getEditText().addTextChangedListener(MaskEditUtil.mask(etCpf.getEditText(),MaskEditUtil.FORMAT_CPF));
-
-        mDate = (view, year, monthOfYear, dayOfMonth) -> {
+       mDate = (view, year, monthOfYear, dayOfMonth) -> {
             mMyCalendar.set(Calendar.YEAR, year);
             mMyCalendar.set(Calendar.MONTH, monthOfYear);
             mMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -178,8 +185,24 @@ public class ContactDetailFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         mAdapter.setItemList(new ArrayList<>(Arrays.asList("")));
 
+        setupViewValidation();
+
 
     }
+
+    private void setupViewValidation(){
+
+        validators = new ArrayList<>();
+
+        ValidatorComposite cpfvalidation = new ValidatorComposite(Arrays.asList(new CpfUfRuleValidator()));
+        ValidatorComposite nameValidation = new ValidatorComposite(Arrays.asList(new NameValidator()));
+        ValidatorComposite birthdayValidation = new ValidatorComposite(Arrays.asList(new BirthdayValidator(),new BirthdayUfRule()));
+
+        validators.add(nameValidation);
+        validators.add(cpfvalidation);
+        validators.add(birthdayValidation);
+    }
+
 
     @OnClick(R.id.birthday_editTxt)
     public void clickBirthdayEditTxt(){
@@ -198,14 +221,34 @@ public class ContactDetailFragment extends Fragment {
         etBirthday.setText(sdf.format(mMyCalendar.getTime()));
     }
     private void saveContact(){
+
+
         Contact contact = new Contact();
         contact.setName(etName.getEditText().getText().toString());
+        contact.setCpf(etCpf.getEditText().getText().toString());
         contact.setUf(etUf.getEditText().getText().toString());
-        contact.setCpf(etUf.getEditText().getText().toString());
+        try {
+            contact.setBirthday(new SimpleDateFormat("dd/MM/yyyy").parse(etBirthday.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        View[] textInputList = new View[]{etName,etCpf,tlBirthday};
+
+        for(int i = 0; i < textInputList.length; i++){
+                try {
+                    ((TextInputLayout) textInputList[i]).setError("");
+                    validators.get(i).validate(contact);
+                }
+                catch(IllegalArgumentException e){
+                    if(textInputList[i] instanceof TextInputLayout){
+                        ((TextInputLayout) textInputList[i]).setError(e.getMessage());
+                        return;
+                }
+            }
+        }
 
 
         mViewModel.createNewContact(contact,mAdapter.getItemList());
     }
-
 }

@@ -17,6 +17,8 @@ public interface ContactRepository {
 
     Maybe<List<Contact>> getAll();
 
+    Maybe<List<Contact>> searchByName(String name);
+
     Observable<ContactPhones> loadById(Long contactId);
 
     Single<Long> insert(Contact contact);

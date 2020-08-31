@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.maxprocesstest.di.DaggerAppComponent;
+import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,7 @@ public class App extends Application implements HasSupportFragmentInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
         DaggerAppComponent.builder()
                 .application(this)
                 .build()

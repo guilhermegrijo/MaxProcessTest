@@ -23,6 +23,10 @@ public abstract class ContactDao {
         public abstract Maybe<List<Contact>> getAll();
 
         @Transaction
+        @Query("SELECT  contact_id, name, uf FROM contact WHERE name LIKE :name || '%'")
+        public abstract Maybe<List<Contact>> searchByName(String name);
+
+        @Transaction
         @Query("SELECT * FROM contact WHERE contact_id = :contactId")
         public abstract Observable<ContactPhones> loadById(Long contactId);
 

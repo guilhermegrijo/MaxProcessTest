@@ -31,6 +31,11 @@ public class ContactDataSource implements ContactRepository {
 }
 
     @Override
+    public Maybe<List<Contact>> searchByName(String name) {
+        return contactDao.searchByName(name);
+    }
+
+    @Override
     public Observable<ContactPhones> loadById(Long contactId) {
         return contactDao.loadById(contactId);
     }

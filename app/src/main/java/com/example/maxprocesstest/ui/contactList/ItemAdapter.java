@@ -1,6 +1,5 @@
 package com.example.maxprocesstest.ui.contactList;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.avatarfirst.avatargenlib.AvatarConstants;
-import com.avatarfirst.avatargenlib.AvatarGenerator;
 import com.bumptech.glide.Glide;
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
@@ -91,11 +88,6 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Log.d("name", mItemList.get(position).getName());
             viewHolder.name.setText(mItemList.get(position).getName());
             viewHolder.uf.setText(mItemList.get(position).getUf());
-            char lastContactFirstLetter = mItemList.get(getPrevious(position)).getName().charAt(0);
-            char contactFirstLetter = mItemList.get(position).getName().charAt(0);
-            if(lastContactFirstLetter != contactFirstLetter){
-
-            }
 
             String initials = "";
             for (String s : mItemList.get(position).getName().split(" ")) {

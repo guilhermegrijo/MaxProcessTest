@@ -51,7 +51,8 @@ public class ContactListViewModel extends ViewModel {
 
 
     public void filterContacts(String name){
-        disposables.add(repository.getAll()
+
+        disposables.add(repository.searchByName(name)
                 .subscribeOn(scheduleProvider.io())
                 .observeOn(scheduleProvider.ui())
                 .doOnSubscribe(__ -> {

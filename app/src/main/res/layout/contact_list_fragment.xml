@@ -52,9 +52,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contact_list_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/new_contact_btn"
         app:layout_constraintTop_toBottomOf="@+id/search_editText"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="3"
         tools:layout_editor_absoluteX="-62dp"
         tools:listitem="@layout/contact_list_item" />

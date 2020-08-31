@@ -35,6 +35,8 @@ public class ContactDetailViewModel extends ViewModel {
 
     public void createNewContact(Contact contact, List<String> phones){
 
+
+
         List<Phone> phoneList = new ArrayList<>();
 
         for(String number : phones) {
