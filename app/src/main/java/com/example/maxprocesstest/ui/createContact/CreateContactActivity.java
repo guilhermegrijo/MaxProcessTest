@@ -1,10 +1,10 @@
 package com.example.maxprocesstest.ui.createContact;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.maxprocesstest.R;
 
@@ -19,7 +19,7 @@ public class CreateContactActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
 
-            if(intent.hasExtra("contactId")) {
+            if (intent.hasExtra("contactId")) {
                 bundle.putParcelable("ContactId", intent.getExtras().getParcelable("ContactId"));
             }
 

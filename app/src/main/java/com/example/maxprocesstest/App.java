@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.fragment.app.Fragment;
 
-
 import com.example.maxprocesstest.di.DaggerAppComponent;
 import com.facebook.stetho.Stetho;
 

@@ -1,19 +1,7 @@
 package com.example.maxprocesstest.ui.createContact;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,14 +12,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
 import com.example.maxprocesstest.model.Response;
+import com.example.maxprocesstest.validator.ValidatorComposite;
 import com.example.maxprocesstest.validator.birthday.BirthdayUfRule;
 import com.example.maxprocesstest.validator.birthday.BirthdayValidator;
 import com.example.maxprocesstest.validator.cpf.CpfUfRuleValidator;
-import com.example.maxprocesstest.validator.ValidatorComposite;
 import com.example.maxprocesstest.validator.name.NameValidator;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -92,7 +91,6 @@ public class CreateContactFragment extends Fragment {
     RecyclerView recyclerView;
 
 
-
     public static CreateContactFragment newInstance() {
         return new CreateContactFragment();
     }
@@ -113,6 +111,7 @@ public class CreateContactFragment extends Fragment {
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
         setupView();
+        setupViewValidation();
         return mView;
     }
 
@@ -121,10 +120,9 @@ public class CreateContactFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         AndroidSupportInjection.inject(this);
         mViewModel = new ViewModelProvider(this, factory).get(CreateContactViewModel.class);
-        mViewModel.response().observe(getViewLifecycleOwner(),this::processResponse);
+        mViewModel.response().observe(getViewLifecycleOwner(), this::processResponse);
 
     }
-
 
 
     @Override
@@ -141,9 +139,8 @@ public class CreateContactFragment extends Fragment {
                 break;
 
             case R.id.action_save:
-                    saveContact();
+                saveContact();
                 break;
-
             default:
                 break;
         }
@@ -155,16 +152,21 @@ public class CreateContactFragment extends Fragment {
         switch (response.status) {
             case COMPLETED:
                 getActivity().finish();
+                Toast.makeText(getContext(), "Contato inserido com sucesso", Toast.LENGTH_SHORT).show();
+                break;
+            case EMPTY:
                 break;
             case ERROR:
                 Log.e("Save contact error", "processResponse: ", response.error);
+                break;
+            case SUCCESS:
                 break;
         }
 
     }
 
-    private void setupView(){
-       mDate = (view, year, monthOfYear, dayOfMonth) -> {
+    private void setupView() {
+        mDate = (view, year, monthOfYear, dayOfMonth) -> {
             mMyCalendar.set(Calendar.YEAR, year);
             mMyCalendar.set(Calendar.MONTH, monthOfYear);
             mMyCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -183,18 +185,16 @@ public class CreateContactFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         mAdapter.setItemList(new ArrayList<>(Arrays.asList("")));
 
-        setupViewValidation();
-
 
     }
 
-    private void setupViewValidation(){
+    private void setupViewValidation() {
 
         validators = new ArrayList<>();
 
         ValidatorComposite cpfvalidation = new ValidatorComposite(Arrays.asList(new CpfUfRuleValidator()));
         ValidatorComposite nameValidation = new ValidatorComposite(Arrays.asList(new NameValidator()));
-        ValidatorComposite birthdayValidation = new ValidatorComposite(Arrays.asList(new BirthdayValidator(),new BirthdayUfRule()));
+        ValidatorComposite birthdayValidation = new ValidatorComposite(Arrays.asList(new BirthdayValidator(), new BirthdayUfRule()));
 
         validators.add(nameValidation);
         validators.add(cpfvalidation);
@@ -203,7 +203,7 @@ public class CreateContactFragment extends Fragment {
 
 
     @OnClick(R.id.birthday_editTxt)
-    public void clickBirthdayEditTxt(){
+    public void clickBirthdayEditTxt() {
         new DatePickerDialog(getContext(), mDate, mMyCalendar
                 .get(Calendar.YEAR), mMyCalendar.get(Calendar.MONTH),
                 mMyCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -214,11 +214,12 @@ public class CreateContactFragment extends Fragment {
 
 
         String myFormat = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt","BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt", "BR"));
 
         etBirthday.setText(sdf.format(mMyCalendar.getTime()));
     }
-    private void saveContact(){
+
+    private void saveContact() {
 
 
         Contact contact = new Contact();
@@ -231,22 +232,21 @@ public class CreateContactFragment extends Fragment {
             e.printStackTrace();
         }
 
-        View[] textInputList = new View[]{etName,etCpf,tlBirthday};
+        View[] textInputList = new View[]{etName, etCpf, tlBirthday};
 
-        for(int i = 0; i < textInputList.length; i++){
-                try {
-                    ((TextInputLayout) textInputList[i]).setError("");
-                    validators.get(i).validate(contact);
-                }
-                catch(IllegalArgumentException e){
-                    if(textInputList[i] instanceof TextInputLayout){
-                        ((TextInputLayout) textInputList[i]).setError(e.getMessage());
-                        return;
+        for (int i = 0; i < textInputList.length; i++) {
+            try {
+                ((TextInputLayout) textInputList[i]).setError("");
+                validators.get(i).validate(contact);
+            } catch (IllegalArgumentException e) {
+                if (textInputList[i] instanceof TextInputLayout) {
+                    ((TextInputLayout) textInputList[i]).setError(e.getMessage());
+                    return;
                 }
             }
         }
 
 
-        mViewModel.createNewContact(contact,mAdapter.getItemList());
+        mViewModel.createNewContact(contact, mAdapter.getItemList());
     }
 }

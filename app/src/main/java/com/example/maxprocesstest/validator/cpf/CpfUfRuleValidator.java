@@ -12,8 +12,8 @@ public class CpfUfRuleValidator implements Validator {
 
         Optional.ofNullable(c)
                 .filter(contact -> {
-                    if(contact.getUf().equals("SP")){
-                      return Pattern.matches("(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", contact.getCpf());
+                    if (contact.getUf().equals("SP")) {
+                        return Pattern.matches("(\\d{3}.?\\d{3}.?\\d{3}-?\\d{2})", contact.getCpf());
                     }
                     return true;
                 })

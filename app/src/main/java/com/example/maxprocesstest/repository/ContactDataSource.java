@@ -11,7 +11,6 @@ import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 
@@ -20,7 +19,7 @@ public class ContactDataSource implements ContactRepository {
     private ContactDao contactDao;
 
     @Inject
-    public ContactDataSource(ContactDao contactDao){
+    public ContactDataSource(ContactDao contactDao) {
         this.contactDao = contactDao;
     }
 
@@ -28,7 +27,7 @@ public class ContactDataSource implements ContactRepository {
     @Override
     public Maybe<List<Contact>> getAll() {
         return contactDao.getAll();
-}
+    }
 
     @Override
     public Maybe<List<Contact>> searchByName(String name) {
@@ -38,6 +37,11 @@ public class ContactDataSource implements ContactRepository {
     @Override
     public Single<ContactPhones> loadById(Long contactId) {
         return contactDao.loadById(contactId);
+    }
+
+    @Override
+    public Completable update(Contact contact) {
+        return contactDao.update(contact);
     }
 
     @Override
@@ -52,7 +56,12 @@ public class ContactDataSource implements ContactRepository {
 
 
     @Override
-    public Completable delete(Contact contact) {
-        return contactDao.delete(contact);
+    public Completable deleteContact(Long contactId) {
+        return contactDao.delete(contactId);
+    }
+
+    @Override
+    public Completable deletePhone(Long contactId) {
+        return contactDao.deletePhones(contactId);
     }
 }

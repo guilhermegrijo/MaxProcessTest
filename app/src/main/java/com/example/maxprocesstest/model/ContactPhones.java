@@ -6,11 +6,11 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class ContactPhones {
-        @Embedded
-        public Contact contact;
-        @Relation(
-                parentColumn = "contact_id",
-                entityColumn = "phones_contact_id"
-        )
-        public List<Phone> phoneList;
+    @Embedded
+    public Contact contact;
+    @Relation(
+            parentColumn = "contact_id",
+            entityColumn = "phones_contact_id"
+    )
+    public List<Phone> phoneList;
 }

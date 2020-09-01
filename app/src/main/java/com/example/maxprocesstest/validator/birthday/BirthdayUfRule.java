@@ -5,18 +5,15 @@ import com.example.maxprocesstest.validator.Validator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Date;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 public class BirthdayUfRule implements Validator {
     @Override
     public void validate(Contact c) {
         Optional.ofNullable(c)
                 .filter(contact -> {
-                    if(contact.getUf().equals("MG")){
+                    if (contact.getUf().equals("MG")) {
                         DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
                         int d1 = Integer.parseInt(formatter.format(contact.getBirthday()));
                         int d2 = Integer.parseInt(formatter.format(new Date()));

@@ -18,7 +18,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 public class CreateContactViewModel extends ViewModel {
 
 
-
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<Response> response = new MutableLiveData<>();
     private ContactRepository repository;
@@ -28,12 +27,13 @@ public class CreateContactViewModel extends ViewModel {
         this.repository = repository;
         this.scheduleProvider = scheduleProvider;
     }
+
     public MutableLiveData<Response> response() {
         return response;
     }
 
 
-    public void createNewContact(Contact contact, List<String> phones){
+    public void createNewContact(Contact contact, List<String> phones) {
         contact.setCreatedAt(new Date());
         disposables.add(repository.insert(contact)
                 .subscribeOn(scheduleProvider.io())
@@ -43,22 +43,22 @@ public class CreateContactViewModel extends ViewModel {
                 }).doOnSuccess(result -> {
                             List<Phone> phoneList = new ArrayList<>();
 
-                            for(String number : phones) {
+                            for (String number : phones) {
                                 Phone phone = new Phone();
                                 phone.setPhone(number);
                                 phone.setPhonesContactId(result);
                                 phoneList.add(phone);
                             }
 
-                    repository.insert(phoneList.toArray(new Phone[phoneList.size()]))
-                            .subscribeOn(scheduleProvider.io())
-                            .observeOn(scheduleProvider.ui())
-                            .doOnComplete(() -> {
-                        response.setValue(Response.completed());
-                    }).doOnError(error -> {
-                        response.setValue(Response.error(error));
-                    }).subscribe();
-                }
+                            repository.insert(phoneList.toArray(new Phone[phoneList.size()]))
+                                    .subscribeOn(scheduleProvider.io())
+                                    .observeOn(scheduleProvider.ui())
+                                    .doOnComplete(() -> {
+                                        response.setValue(Response.completed());
+                                    }).doOnError(error -> {
+                                response.setValue(Response.error(error));
+                            }).subscribe();
+                        }
                 ).doOnError(error -> response.setValue(Response.error(error))).subscribe());
     }
 }

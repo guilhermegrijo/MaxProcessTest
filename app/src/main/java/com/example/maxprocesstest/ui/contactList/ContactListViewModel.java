@@ -22,6 +22,7 @@ public class ContactListViewModel extends ViewModel {
         this.repository = repository;
         this.scheduleProvider = scheduleProvider;
     }
+
     public MutableLiveData<Response> response() {
         return response;
     }
@@ -36,21 +37,21 @@ public class ContactListViewModel extends ViewModel {
                 })
                 .subscribe(
                         result -> {
-                            if(result.isEmpty()) response.setValue(Response.empty());
+                            if (result.isEmpty()) response.setValue(Response.empty());
 
-                                else
-                            response.setValue(Response.success(result));
+                            else
+                                response.setValue(Response.success(result));
                             // EspressoTestingIdlingResource.decrement();
                         },
                         error -> {
-                                response.setValue(Response.error(error));
+                            response.setValue(Response.error(error));
                             // EspressoTestingIdlingResource.decrement();
                         }
                 ));
     }
 
 
-    public void filterContacts(String name){
+    public void filterContacts(String name) {
 
         disposables.add(repository.searchByName(name)
                 .subscribeOn(scheduleProvider.io())
@@ -63,7 +64,7 @@ public class ContactListViewModel extends ViewModel {
                 .toList()
                 .subscribe(
                         result -> {
-                            if(result.isEmpty()) response.setValue(Response.empty());
+                            if (result.isEmpty()) response.setValue(Response.empty());
 
                             else
                                 response.setValue(Response.success(result));

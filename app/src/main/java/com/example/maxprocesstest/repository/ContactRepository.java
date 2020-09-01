@@ -9,7 +9,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 
 
@@ -21,10 +20,13 @@ public interface ContactRepository {
 
     Single<ContactPhones> loadById(Long contactId);
 
+    Completable update(Contact contact);
+
     Single<Long> insert(Contact contact);
 
     Completable insert(Phone... phone);
 
-    Completable delete(Contact contact);
+    Completable deleteContact(Long contactId);
 
+    Completable deletePhone(Long contactId);
 }

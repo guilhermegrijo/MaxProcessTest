@@ -38,6 +38,14 @@ public class Response<T> {
         return new Response(Status.EMPTY, null, null);
     }
 
+    public static Response removed() {
+        return new Response(Status.REMOVED, null, null);
+    }
+
+    public static Response updated() {
+        return new Response(Status.UPDATED, null, null);
+    }
+
 
     public static Response completed() {
         return new Response(Status.COMPLETED, null, null);

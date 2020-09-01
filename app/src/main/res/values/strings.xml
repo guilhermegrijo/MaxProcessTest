@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MaxProcessTest</string>
+    <string name="update_contact_title">Atualizar Contato</string>
 </resources>

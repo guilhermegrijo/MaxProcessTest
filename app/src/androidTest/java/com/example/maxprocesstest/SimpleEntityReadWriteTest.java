@@ -1,7 +1,6 @@
 package com.example.maxprocesstest;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -24,12 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.functions.Function;
-import io.reactivex.rxjava3.observers.TestObserver;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -47,7 +40,7 @@ public class SimpleEntityReadWriteTest {
     }
 
     @After
-    public void closeDb(){
+    public void closeDb() {
         db.close();
     }
 

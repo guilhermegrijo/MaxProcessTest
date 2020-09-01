@@ -4,5 +4,7 @@ public enum Status {
     EMPTY,
     ERROR,
     SUCCESS,
-    COMPLETED
+    COMPLETED,
+    UPDATED,
+    REMOVED
 }

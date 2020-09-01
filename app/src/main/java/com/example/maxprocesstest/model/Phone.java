@@ -3,7 +3,6 @@ package com.example.maxprocesstest.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.Data;
 @Data
 @Entity(
         tableName = "phone"
-        )
+)
 public class Phone {
 
     @PrimaryKey(autoGenerate = true)

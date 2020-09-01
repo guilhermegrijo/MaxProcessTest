@@ -1,8 +1,6 @@
 package com.example.maxprocesstest.di;
 
 
-
-
 import android.app.Application;
 
 import androidx.room.Room;
@@ -14,8 +12,8 @@ import com.example.maxprocesstest.repository.ContactDataSource;
 import com.example.maxprocesstest.repository.ContactRepository;
 import com.example.maxprocesstest.scheduler.IScheduleProvider;
 import com.example.maxprocesstest.scheduler.SchedulerProvider;
-import com.example.maxprocesstest.ui.createContact.CreateContactViewModelFactory;
 import com.example.maxprocesstest.ui.contactList.ContactListViewModelFactory;
+import com.example.maxprocesstest.ui.createContact.CreateContactViewModelFactory;
 import com.example.maxprocesstest.ui.updateContact.UpdateContactViewModelFactory;
 
 import javax.inject.Singleton;
@@ -25,7 +23,6 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-
 
 
     @Singleton

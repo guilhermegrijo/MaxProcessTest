@@ -19,7 +19,7 @@ public class UpdateContactActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
 
-            if(intent.hasExtra("ContactId")) {
+            if (intent.hasExtra("ContactId")) {
                 bundle.putLong("ContactId", intent.getExtras().getLong("ContactId"));
             }
 

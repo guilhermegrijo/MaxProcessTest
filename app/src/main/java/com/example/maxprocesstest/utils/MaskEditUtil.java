@@ -11,16 +11,19 @@ public abstract class MaskEditUtil {
     public static final String FORMAT_CEP = "#####-###";
     public static final String FORMAT_DATE = "##/##/####";
     public static final String FORMAT_HOUR = "##:##";
+
     public static TextWatcher mask(final EditText ediTxt, final String mask) {
         return new TextWatcher() {
             boolean isUpdating;
             String old = "";
 
             @Override
-            public void afterTextChanged(final Editable s) {}
+            public void afterTextChanged(final Editable s) {
+            }
 
             @Override
-            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {}
+            public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+            }
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
@@ -45,7 +48,7 @@ public abstract class MaskEditUtil {
                     i++;
                 }
                 isUpdating = true;
-                if(str.length() > 10){
+                if (str.length() > 10) {
                     str.length();
                 }
                 ediTxt.setText(mascara);
@@ -55,6 +58,6 @@ public abstract class MaskEditUtil {
     }
 
     public static String unmask(final String s) {
-        return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "").replaceAll("[ ]","").replaceAll("[:]", "").replaceAll("[)]", "");
+        return s.replaceAll("[.]", "").replaceAll("[-]", "").replaceAll("[/]", "").replaceAll("[(]", "").replaceAll("[ ]", "").replaceAll("[:]", "").replaceAll("[)]", "");
     }
 }

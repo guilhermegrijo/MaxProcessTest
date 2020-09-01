@@ -91,13 +91,13 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             String initials = "";
             for (String s : mItemList.get(position).getName().split(" ")) {
-                initials+=s.charAt(0);
+                initials += s.charAt(0);
             }
             ColorGenerator generator = ColorGenerator.MATERIAL;
             int color = generator.getColor(mItemList.get(position).getName());
 
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(initials.substring(0,(initials.length() > 2 ? 2 : initials.length())) , color);
+                    .buildRound(initials.substring(0, (initials.length() > 2 ? 2 : initials.length())), color);
             Glide.with(companyPhoto.getContext()).load("http://aaaaaaaaaaaaaa")
                     .placeholder(drawable)
                     .into(companyPhoto);
