@@ -59,12 +59,9 @@ public class ContactListViewModel extends ViewModel {
                 .doOnSubscribe(__ -> {
                     //EspressoTestingIdlingResource.increment();
                 })
-                .flatMapObservable(Observable::fromIterable)
-                .filter(contact -> contact.getName().startsWith(name))
-                .toList()
                 .subscribe(
                         result -> {
-                            if (result.isEmpty()) response.setValue(Response.empty());
+                            if (result.isEmpty()) response.setValue(Response.emptyQuery());
 
                             else
                                 response.setValue(Response.success(result));

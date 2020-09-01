@@ -38,6 +38,10 @@ public class Response<T> {
         return new Response(Status.EMPTY, null, null);
     }
 
+    public static Response emptyQuery() {
+        return new Response(Status.EMPTYQUERY, null, null);
+    }
+
     public static Response removed() {
         return new Response(Status.REMOVED, null, null);
     }

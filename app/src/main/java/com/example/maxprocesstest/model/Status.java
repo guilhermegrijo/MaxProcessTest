@@ -6,5 +6,6 @@ public enum Status {
     SUCCESS,
     COMPLETED,
     UPDATED,
-    REMOVED
+    REMOVED,
+    EMPTYQUERY
 }

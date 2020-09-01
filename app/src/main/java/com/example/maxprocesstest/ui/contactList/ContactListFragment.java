@@ -157,6 +157,9 @@ public class ContactListFragment extends Fragment {
             case ERROR:
                 placeholder.setVisibility(View.GONE);
                 break;
+            case EMPTYQUERY:
+                mAdapter.setItemList(response.data);
+                break;
             case EMPTY:
                 placeholder.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);

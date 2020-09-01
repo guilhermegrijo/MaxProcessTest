@@ -57,10 +57,19 @@ public class SimpleEntityReadWriteTest {
         phoneList.add(phone);
 
 
-        repository.insert(user).flatMapCompletable(id -> repository.insert(phoneList.stream().toArray(Phone[]::new))).test();
+        repository.insert(user).flatMapCompletable(id ->
+                {
+                    for(Phone phone1 : phoneList){
+                        phone1.setPhonesContactId(id);
+                    }
+
+                    return repository.insert(phoneList.stream().toArray(Phone[]::new));
+                }
+        )
+                .test();
 
 
-        ContactPhones contactPhones = repository.loadById((long) 1).blockingFirst();
+        ContactPhones contactPhones = repository.loadById((long) 1).blockingGet();
 
         assertThat(contactPhones.phoneList.size(), equalTo(1));
     }

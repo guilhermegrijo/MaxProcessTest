@@ -23,7 +23,7 @@ public abstract class ContactDao {
     public abstract Maybe<List<Contact>> getAll();
 
     @Transaction
-    @Query("SELECT  contact_id, name, uf FROM contact WHERE UPPER(name) LIKE UPPER(:name || '%') COLLATE NOCASE")
+    @Query("SELECT  contact_id, name, uf FROM contact WHERE name LIKE :name||'%' COLLATE NOCASE ")
     public abstract Maybe<List<Contact>> searchByName(String name);
 
     @Transaction

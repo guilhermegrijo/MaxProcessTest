@@ -89,7 +89,7 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void addPhoneAction() {
             Log.d("Position", String.valueOf(position));
             String str = etPhone.getEditText().getText().toString().replaceAll("[^\\d]", "");
-            if (str.length() >= 10) {
+            if (str.length() >= 8) {
                 notifyDataSetChanged();
                 Phone phone = new Phone();
                 phone.setPhone("");
@@ -136,13 +136,11 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void afterTextChanged(Editable editable) {
                     String str = editable.toString().replaceAll("[^\\d]", "");
-                    if (str.length() >= 10) {
                         Phone phone = new Phone();
                         phone.setPhone(str);
 
                         mItemList.set(viewHolder.getAdapterPosition(), phone);
                         return;
-                    }
                 }
             });
 

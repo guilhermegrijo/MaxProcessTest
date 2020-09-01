@@ -14,7 +14,7 @@ import lombok.Data;
 public class Contact {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "contact_id")
+    @ColumnInfo(name = "contact_id", collate = ColumnInfo.NOCASE)
     private Long contactId;
 
     @ColumnInfo(name = "name")
