@@ -19,11 +19,9 @@ public interface ContactRepository {
 
     Maybe<List<Contact>> searchByName(String name);
 
-    Observable<ContactPhones> loadById(Long contactId);
+    Single<ContactPhones> loadById(Long contactId);
 
     Single<Long> insert(Contact contact);
-
-    void insert(Contact contact, Phone... phones);
 
     Completable insert(Phone... phone);
 

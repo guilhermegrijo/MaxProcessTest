@@ -28,22 +28,10 @@ public abstract class ContactDao {
 
         @Transaction
         @Query("SELECT * FROM contact WHERE contact_id = :contactId")
-        public abstract Observable<ContactPhones> loadById(Long contactId);
+        public abstract Single<ContactPhones> loadById(Long contactId);
 
         @Insert
         public abstract Single<Long> insert(Contact contact);
-
-        @Transaction
-        public void insert(Contact contact, Phone... phones) {
-
-                final Long result = insert(contact).blockingGet();
-
-
-                        for (Phone phone : phones) {
-                                phone.setPhonesContactId(result);
-                                insert(phone);
-                        }
-        }
 
         @Insert
         public abstract Completable insert(Phone... phone);

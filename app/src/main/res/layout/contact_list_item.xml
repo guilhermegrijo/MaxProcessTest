@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:paddingLeft="16dp"
+    android:paddingBottom="0dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/companyPhoto"
+                android:id="@+id/avatarLetters"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_margin="9dp"

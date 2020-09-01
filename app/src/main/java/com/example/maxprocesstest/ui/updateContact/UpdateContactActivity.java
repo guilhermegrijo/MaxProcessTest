@@ -1,14 +1,14 @@
-package com.example.maxprocesstest.ui.contactDetail;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.maxprocesstest.ui.updateContact;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.maxprocesstest.R;
 
-public class ContactDetailActivity extends AppCompatActivity {
+public class UpdateContactActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +19,14 @@ public class ContactDetailActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
 
-            if(intent.hasExtra("contactId")) {
-                bundle.putParcelable("ContactId", intent.getExtras().getParcelable("ContactId"));
+            if(intent.hasExtra("ContactId")) {
+                bundle.putLong("ContactId", intent.getExtras().getLong("ContactId"));
             }
 
             Log.d("Contato Detalhe", String.valueOf((bundle != null)));
 
 
-            ContactDetailFragment fragment = ContactDetailFragment.newInstance();
+            UpdateContactFragment fragment = UpdateContactFragment.newInstance();
             fragment.setArguments(bundle);
 
             getSupportFragmentManager().beginTransaction()

@@ -17,7 +17,7 @@ public class Contact {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "contact_id")
-    private Long ContactId;
+    private Long contactId;
 
     @ColumnInfo(name = "name")
     private String name;

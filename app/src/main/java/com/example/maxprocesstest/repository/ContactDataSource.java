@@ -36,18 +36,13 @@ public class ContactDataSource implements ContactRepository {
     }
 
     @Override
-    public Observable<ContactPhones> loadById(Long contactId) {
+    public Single<ContactPhones> loadById(Long contactId) {
         return contactDao.loadById(contactId);
     }
 
     @Override
     public Single insert(Contact contact) {
         return contactDao.insert(contact);
-    }
-
-    @Override
-    public void insert(Contact contact, Phone... phones) {
-        contactDao.insert(contact, phones);
     }
 
     @Override

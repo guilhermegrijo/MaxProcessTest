@@ -1,8 +1,5 @@
 package com.example.maxprocesstest.ui.contactList;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -16,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,8 @@ import android.widget.EditText;
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
 import com.example.maxprocesstest.model.Response;
-import com.example.maxprocesstest.ui.contactDetail.ContactDetailActivity;
+import com.example.maxprocesstest.ui.createContact.CreateContactActivity;
+import com.example.maxprocesstest.ui.updateContact.UpdateContactActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
@@ -76,12 +75,7 @@ public class ContactListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.contact_list_fragment, container, false);
         ButterKnife.bind(this, mView);
-
-        mAdapter = new ItemAdapter();
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
+        setupView();
         return mView;
     }
 
@@ -104,8 +98,22 @@ public class ContactListFragment extends Fragment {
 
     @OnClick(R.id.new_contact_btn)
     void new_contact_action(){
-        Intent intent = new Intent(getActivity(), ContactDetailActivity.class);
+        Intent intent = new Intent(getActivity(), CreateContactActivity.class);
         startActivity(intent);
+    }
+
+    private void setupView(){
+        mAdapter = new ItemAdapter();
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setListener((contactId) -> {
+            Intent intent = new Intent(getActivity(), UpdateContactActivity.class);
+            intent.putExtra("ContactId", contactId);
+            startActivity(intent);
+
+        });
     }
 
     @OnEditorAction(R.id.search_editText)

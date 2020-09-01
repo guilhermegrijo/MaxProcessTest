@@ -1,4 +1,4 @@
-package com.example.maxprocesstest.ui.contactDetail;
+package com.example.maxprocesstest.ui.createContact;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,16 +6,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.maxprocesstest.repository.ContactRepository;
 import com.example.maxprocesstest.scheduler.IScheduleProvider;
-import com.example.maxprocesstest.ui.contactList.ContactListViewModel;
 
-public class ContactDetailViewModelFactory implements ViewModelProvider.Factory {
+public class CreateContactViewModelFactory implements ViewModelProvider.Factory {
 
 
     private final ContactRepository repository;
 
     private final IScheduleProvider scheduleProvider;
 
-    public ContactDetailViewModelFactory(ContactRepository repository, IScheduleProvider scheduleProvider) {
+    public CreateContactViewModelFactory(ContactRepository repository, IScheduleProvider scheduleProvider) {
         this.repository = repository;
         this.scheduleProvider = scheduleProvider;
     }
@@ -23,8 +22,8 @@ public class ContactDetailViewModelFactory implements ViewModelProvider.Factory 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(ContactDetailViewModel.class)) {
-            return (T) new ContactDetailViewModel(repository, scheduleProvider);
+        if (modelClass.isAssignableFrom(CreateContactViewModel.class)) {
+            return (T) new CreateContactViewModel(repository, scheduleProvider);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

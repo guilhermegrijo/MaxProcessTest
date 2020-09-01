@@ -1,4 +1,4 @@
-package com.example.maxprocesstest.ui.contactDetail;
+package com.example.maxprocesstest.ui.createContact;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maxprocesstest.R;
 import com.example.maxprocesstest.model.Contact;
-import com.example.maxprocesstest.utils.MaskEditUtil;
 import com.google.android.material.textfield.TextInputLayout;
-import com.santalu.maskara.widget.MaskEditText;
 
 import java.util.List;
 

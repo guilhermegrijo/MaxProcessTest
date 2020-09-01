@@ -61,7 +61,7 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public interface OnItemClickListener {
-        void onItemClick(Contact item, ImageView sharedImageView);
+        void onItemClick(Long contactId);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +70,7 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView name;
         @BindView(R.id.contact_uf)
         TextView uf;
-        @BindView(R.id.companyPhoto)
+        @BindView(R.id.avatarLetters)
         ImageView companyPhoto;
 
         ItemViewHolder(@NonNull View itemView) {
@@ -97,12 +97,12 @@ class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int color = generator.getColor(mItemList.get(position).getName());
 
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(initials , color);
+                    .buildRound(initials.substring(0,(initials.length() > 2 ? 2 : initials.length())) , color);
             Glide.with(companyPhoto.getContext()).load("http://aaaaaaaaaaaaaa")
                     .placeholder(drawable)
                     .into(companyPhoto);
 
-            itemView.setOnClickListener(v -> listener.onItemClick(mItemList.get(position), companyPhoto));
+            itemView.setOnClickListener(v -> listener.onItemClick(mItemList.get(position).getContactId()));
         }
     }
 }

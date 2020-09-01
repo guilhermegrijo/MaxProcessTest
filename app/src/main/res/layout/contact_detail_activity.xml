@@ -4,4 +4,4 @@
     android:id="@+id/contact_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.contactDetail.ContactDetailActivity" />
+    tools:context=".ui.createContact.CreateContactActivity" />

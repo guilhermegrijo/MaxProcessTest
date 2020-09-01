@@ -29,6 +29,11 @@ public class Response<T> {
         return new Response(Status.SUCCESS, data, null);
     }
 
+    public static Response success(ContactPhones data) {
+
+        return new Response(Status.SUCCESS, data, null);
+    }
+
     public static Response empty() {
         return new Response(Status.EMPTY, null, null);
     }

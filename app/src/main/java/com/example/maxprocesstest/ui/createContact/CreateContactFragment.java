@@ -1,4 +1,4 @@
-package com.example.maxprocesstest.ui.contactDetail;
+package com.example.maxprocesstest.ui.createContact;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +31,6 @@ import com.example.maxprocesstest.model.Response;
 import com.example.maxprocesstest.validator.birthday.BirthdayUfRule;
 import com.example.maxprocesstest.validator.birthday.BirthdayValidator;
 import com.example.maxprocesstest.validator.cpf.CpfUfRuleValidator;
-import com.example.maxprocesstest.validator.cpf.CpfValidator;
 import com.example.maxprocesstest.validator.ValidatorComposite;
 import com.example.maxprocesstest.validator.name.NameValidator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -41,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,9 +50,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.support.AndroidSupportInjection;
 
-public class ContactDetailFragment extends Fragment {
+public class CreateContactFragment extends Fragment {
 
-    private ContactDetailViewModel mViewModel;
+    private CreateContactViewModel mViewModel;
 
     private View mView;
 
@@ -67,7 +65,7 @@ public class ContactDetailFragment extends Fragment {
     DatePickerDialog.OnDateSetListener mDate;
 
     @Inject
-    ContactDetailViewModelFactory factory;
+    CreateContactViewModelFactory factory;
 
     @BindView(R.id.birthday_editTxt)
     EditText etBirthday;
@@ -95,8 +93,8 @@ public class ContactDetailFragment extends Fragment {
 
 
 
-    public static ContactDetailFragment newInstance() {
-        return new ContactDetailFragment();
+    public static CreateContactFragment newInstance() {
+        return new CreateContactFragment();
     }
 
     @Nullable
@@ -122,7 +120,7 @@ public class ContactDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         AndroidSupportInjection.inject(this);
-        mViewModel = new ViewModelProvider(this, factory).get(ContactDetailViewModel.class);
+        mViewModel = new ViewModelProvider(this, factory).get(CreateContactViewModel.class);
         mViewModel.response().observe(getViewLifecycleOwner(),this::processResponse);
 
     }

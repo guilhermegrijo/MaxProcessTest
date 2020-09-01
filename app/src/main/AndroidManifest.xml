@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.contactDetail.ContactDetailActivity" />
+        <activity android:name=".ui.createContact.CreateContactActivity" />
+        <activity android:name=".ui.updateContact.UpdateContactActivity" />
     </application>
 
 </manifest>

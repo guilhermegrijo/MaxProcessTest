@@ -53,6 +53,7 @@
         android:id="@+id/contact_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/new_contact_btn"
         app:layout_constraintTop_toBottomOf="@+id/search_editText"

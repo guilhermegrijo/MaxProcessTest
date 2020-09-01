@@ -2,20 +2,12 @@ package com.example.maxprocesstest.utils;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.maxprocesstest.model.Contact;
-import com.example.maxprocesstest.ui.contactDetail.ItemAdapter;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 public abstract class PhoneWatcher {
 

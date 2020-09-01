@@ -10,23 +10,17 @@ import lombok.Data;
 
 @Data
 @Entity(
-        tableName = "phone",
-        foreignKeys = @ForeignKey (
-                                  entity = Contact.class,
-                                  parentColumns = "contact_id",
-                                  childColumns = "phones_contact_id",
-                                  onDelete = ForeignKey.CASCADE
-                                    )
+        tableName = "phone"
         )
 public class Phone {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "phone_id")
-    private Long PhoneId;
+    private Long phoneId;
 
 
     @ColumnInfo(name = "phones_contact_id")
-    private Long PhonesContactId;
+    private Long phonesContactId;
 
     @ColumnInfo(name = "phone")
     private String phone;
